@@ -7,6 +7,8 @@ In terminal:
 pytest tests.py -v
 ```
 
+Note that `-v` stands for "verbose". Without it, pytest just shows a dot for each passing test. With it, pytest shows the full test name and PASSED or FAILED next to it.
+
 Also, remove `--headless` from your options:
 ```
 options.add_argument("--headless")  # comment this line out
@@ -26,6 +28,8 @@ collected 0 items
 
 After adding the pytest fixture and the login helper function, add TC01.
 
+### Testing TC01
+
 After adding TC01, run `pytest tests.py -v`.
 
 It outputs:
@@ -40,6 +44,8 @@ tests.py::test_valid_login PASSED                                               
 
 ================================================================= 1 passed in 37.67s =================================================================
 ```
+
+### Testing TC02
 
 To run a specific test function in `tests.py`, run this instead i.e. Add `::function_name` after the file name:
 ```
@@ -60,7 +66,26 @@ tests.py::test_invalid_login PASSED                                             
 ================================================================ 2 passed in 23.59s ================================================================
 ```
 
+### Testing TC03
 
 ## Creating a `.gitignore` file
 
 The `tests.cpython-312-pytest-9....` file is a pytest cache file. Python compiles your `.py` file into bytecode when it runs, and pytest saves some metadata alongside it.
+
+Run:
+```
+pytest tests.py::test_add_item_to_cart -v
+```
+
+Output:
+```
+============================================================== test session starts ==============================================================
+platform win32 -- Python 3.12.9, pytest-9.0.3, pluggy-1.6.0 -- C:\Users\Li-Ting\AppData\Local\Programs\Python\Python312\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\Li-Ting\Documents\Projects\QA-Automation-Showcase
+collected 1 item                                                                                                                                 
+
+tests.py::test_add_item_to_cart PASSED                                                                                                     [100%]
+
+=============================================================== 1 passed in 7.88s ===============================================================
+```

@@ -46,3 +46,10 @@ def test_invalid_login(driver):
     driver.find_element(By.ID, "login-button").click()
     error = driver.find_element(By.CSS_SELECTOR, "[data-test='error']")     # targetting the error message on screen which is <h3 data-test="error">
     assert error.is_displayed()
+
+# TC03 Add Item to Cart
+def test_add_item_to_cart(driver):
+    login(driver)                                                       
+    driver.find_element(By.CSS_SELECTOR, ".btn_inventory").click()          # By.CSS_SELECTOR, ".btn_inventory" finds the first "Add to cart" button on the page.
+    cart_count = driver.find_element(By.CLASS_NAME, "shopping_cart_badge")  # By.CLASS_NAME, "shopping_cart_badge" finds the cart icon counter in the top right corner.
+    assert cart_count.text == "1"                                           # cart_count.text == "1" checks that the number shown on the cart is exactly "1" after adding one item.
