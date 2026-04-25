@@ -22,7 +22,6 @@ def driver():                                               # The driver functio
     yield d                                                 # yield d passes the browser to your test. Everything after yield runs after the test finishes.
     d.quit()                                                # d.quit() closes the browser after the test is done.                 
 
-
 # A helper function holds the login step that multiple tests share
 def login(driver):  
     driver.get(BASE_URL)                                            # driver.get(BASE_URL) opens the browser and goes to the URL.
@@ -53,3 +52,17 @@ def test_add_item_to_cart(driver):
     driver.find_element(By.CSS_SELECTOR, ".btn_inventory").click()          # By.CSS_SELECTOR, ".btn_inventory" finds the first "Add to cart" button on the page.
     cart_count = driver.find_element(By.CLASS_NAME, "shopping_cart_badge")  # By.CLASS_NAME, "shopping_cart_badge" finds the cart icon counter in the top right corner.
     assert cart_count.text == "1"                                           # cart_count.text == "1" checks that the number shown on the cart is exactly "1" after adding one item.
+
+# TC04 Complete Checkout
+def test_complete_checkout(driver):
+    login(driver)
+    driver.find_element(By.CSS_SELECTOR, ".btn_inventory").click()          # .btn_inventory adds the first item to the cart, same as TC03.
+    driver.find_element(By.CLASS_NAME, "shopping_cart_link").click()        # shopping_cart_link clicks the cart icon to go to the cart page.
+    driver.find_element(By.ID, "checkout").click()                          # These are IDs of the elements on the checkout pages. Each one moves you one step forward through the checkout flow.
+    driver.find_element(By.ID, "first-name").send_keys("Test")
+    driver.find_element(By.ID, "last-name").send_keys("User")
+    driver.find_element(By.ID, "postal-code").send_keys("5000")
+    driver.find_element(By.ID, "continue").click()
+    driver.find_element(By.ID, "finish").click()
+    confirmation = driver.find_element(By.CLASS_NAME, "complete-header")    # complete-header is the "Thank you for your order" text that appears on the confirmation page.
+    assert confirmation.is_displayed()

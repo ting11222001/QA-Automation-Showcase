@@ -68,6 +68,18 @@ tests.py::test_invalid_login PASSED                                             
 
 ### Testing TC03
 
+Run:
+```
+pytest tests.py::test_add_item_to_cart -v
+```
+
+### Testing TC04
+
+Run:
+```
+pytest tests.py::test_complete_checkout -v
+```
+
 ## Creating a `.gitignore` file
 
 The `tests.cpython-312-pytest-9....` file is a pytest cache file. Python compiles your `.py` file into bytecode when it runs, and pytest saves some metadata alongside it.
