@@ -16,6 +16,8 @@ def driver():                                               # The driver functio
     # options.add_argument("--headless")                      # --headless runs Chrome with no visible window. This is needed for CI environments like GitHub Actions where there is no screen.
     options.add_argument("--no-sandbox")                    # --no-sandbox and --disable-dev-shm-usage are needed to make Chrome work inside Linux containers.
     options.add_argument("--disable-dev-shm-usage")
+    prefs = {"credentials_enable_service": False, "profile.password_manager_enabled": False} # Disable Chrome's password manager popups which can interfere with tests that involve logging in. This is done by setting some preferences in ChromeOptions.
+    options.add_experimental_option("prefs", prefs)
     service = Service(ChromeDriverManager().install())      # ChromeDriverManager().install() downloads the correct Chrome driver automatically.
     d = webdriver.Chrome(service=service, options=options)
     d.implicitly_wait(5)                                    # d.implicitly_wait(5) tells Selenium to wait up to 5 seconds when looking for an element before giving up.
@@ -66,3 +68,17 @@ def test_complete_checkout(driver):
     driver.find_element(By.ID, "finish").click()
     confirmation = driver.find_element(By.CLASS_NAME, "complete-header")    # complete-header is the "Thank you for your order" text that appears on the confirmation page.
     assert confirmation.is_displayed()
+
+# TC05 Logout
+def test_logout(driver):
+    login(driver)
+    driver.find_element(By.ID, "react-burger-menu-btn").click()
+    
+    # This is the only test that uses WebDriverWait. The other tests used implicitly_wait which is a general background wait.
+    # When you click the hamburger menu, the sidebar slides in with an animation. If Selenium tries to click "Logout" before the animation finishes, it will fail because the element is not clickable yet.
+    # WebDriverWait(driver, 10) creates a wait object that will keep trying for up to 10 seconds.
+    # Sometimes need to try increasing the wait time to give the sidebar more time to fully open before trying to click the logout link.
+    wait = WebDriverWait(driver, 10)                                                     
+    logout_link = wait.until(EC.element_to_be_clickable((By.ID, "logout_sidebar_link")))    # wait.until(EC.element_to_be_clickable(...)) keeps checking until the logout link is actually clickable, then returns it.
+    logout_link.click()
+    assert driver.current_url == BASE_URL + "/"

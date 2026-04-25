@@ -80,6 +80,31 @@ Run:
 pytest tests.py::test_complete_checkout -v
 ```
 
+### Testing TC05
+
+Sometimes after login, there will be a change password alert.
+
+That popup is from your browser's password manager, not from SauceDemo. Selenium is running a real Chrome browser, so it behaves like a normal user session including password manager prompts.
+
+The fix is to add one more Chrome option to your fixture to disable the password manager:
+
+```
+options.add_argument("--password-store=basic")
+```
+
+Or a more complete fix, add this instead:
+```
+prefs = {"credentials_enable_service": False, "profile.password_manager_enabled": False}
+options.add_experimental_option("prefs", prefs)
+```
+
+Run:
+```
+pytest tests.py::test_logout -v
+```
+
+Then run all tests together. There should be 5 passed.
+
 ## Creating a `.gitignore` file
 
 The `tests.cpython-312-pytest-9....` file is a pytest cache file. Python compiles your `.py` file into bytecode when it runs, and pytest saves some metadata alongside it.
