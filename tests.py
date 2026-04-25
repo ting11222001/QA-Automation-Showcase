@@ -37,3 +37,12 @@ def test_valid_login(driver):
     driver.find_element(By.ID, "password").send_keys(PASSWORD)
     driver.find_element(By.ID, "login-button").click()
     assert "inventory" in driver.current_url
+
+# TC02 Invalid Login
+def test_invalid_login(driver):
+    driver.get(BASE_URL)
+    driver.find_element(By.ID, "user-name").send_keys(USERNAME)
+    driver.find_element(By.ID, "password").send_keys("wrong_password")
+    driver.find_element(By.ID, "login-button").click()
+    error = driver.find_element(By.CSS_SELECTOR, "[data-test='error']")     # targetting the error message on screen which is <h3 data-test="error">
+    assert error.is_displayed()
