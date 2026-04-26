@@ -60,13 +60,16 @@ def test_complete_checkout(driver):
     login(driver)
     driver.find_element(By.CSS_SELECTOR, ".btn_inventory").click()          # .btn_inventory adds the first item to the cart, same as TC03.
     WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CLASS_NAME, "shopping_cart_link"))).click()       # shopping_cart_link clicks the cart icon to go to the cart page.
-    # The follow elements are IDs of the elements on the checkout pages. Each one moves you one step forward through the checkout flow.
-    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, "checkout"))).click()     # The error is no such element for the checkout button. This is a timing problem. The cart page is not fully loaded before Selenium tries to click checkout.
+    WebDriverWait(driver, 10).until(EC.url_contains("cart"))                # Wait for the URL to contain "cart" before looking for the checkout button. This confirms the cart page is fully loaded.
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, "checkout"))).click()     # Click the checkout button. This navigates to checkout-step-one.html.
+    WebDriverWait(driver, 10).until(EC.url_contains("checkout-step-one"))   # Wait for checkout-step-one.html to load before filling in the form fields.
     driver.find_element(By.ID, "first-name").send_keys("Test")
     driver.find_element(By.ID, "last-name").send_keys("User")
     driver.find_element(By.ID, "postal-code").send_keys("5000")
-    driver.find_element(By.ID, "continue").click()
-    driver.find_element(By.ID, "finish").click()
+    driver.find_element(By.ID, "continue").click()                          # Continue navigates to checkout-step-two.html which shows the order summary.
+    WebDriverWait(driver, 10).until(EC.url_contains("checkout-step-two"))   # Wait for checkout-step-two.html to load before clicking finish.
+    driver.find_element(By.ID, "finish").click()                            # Finish submits the order and navigates to checkout-complete.html.
+    WebDriverWait(driver, 10).until(EC.url_contains("checkout-complete"))   # Wait for checkout-complete.html to load before looking for the confirmation element.
     confirmation = driver.find_element(By.CLASS_NAME, "complete-header")    # complete-header is the "Thank you for your order" text that appears on the confirmation page.
     assert confirmation.is_displayed()
 
