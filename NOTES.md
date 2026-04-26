@@ -126,3 +126,35 @@ tests.py::test_add_item_to_cart PASSED                                          
 
 =============================================================== 1 passed in 7.88s ===============================================================
 ```
+
+## Add Github Actions Workflow
+
+First, put --headless back in your fixture:
+```
+options.add_argument("--headless")
+```
+
+GitHub Actions provides Chrome pre-installed on ubuntu-latest so you do not need to install it separately.
+
+Run this command again locally:
+```
+pytest tests.py -v
+```
+
+
+Output should be showing all five test cases are passed:
+```
+============================================================== test session starts ==============================================================
+platform win32 -- Python 3.12.9, pytest-9.0.3, pluggy-1.6.0 -- C:\Users\Li-Ting\AppData\Local\Programs\Python\Python312\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\Li-Ting\Documents\Projects\QA-Automation-Showcase
+collected 5 items                                                                                                                                
+
+tests.py::test_valid_login PASSED                                                                                                          [ 20%]
+tests.py::test_invalid_login PASSED                                                                                                        [ 40%]
+tests.py::test_add_item_to_cart PASSED                                                                                                     [ 60%]
+tests.py::test_complete_checkout PASSED                                                                                                    [ 80%]
+tests.py::test_logout PASSED                                                                                                               [100%]
+
+============================================================== 5 passed in 34.77s ===============================================================
+```

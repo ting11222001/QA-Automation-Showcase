@@ -1,0 +1,21 @@
+name: QA Tests
+
+on: [push]                              # on: [push] means this workflow runs every time you push to GitHub.
+
+jobs:
+  test:
+    runs-on: ubuntu-latest              # runs-on: ubuntu-latest means GitHub runs your tests on a Linux machine. This is why you needed --no-sandbox and --disable-dev-shm-usage in your Chrome options. 
+
+    steps:
+      - uses: actions/checkout@v3       # actions/checkout@v3 downloads your repo code onto that machine.
+
+      - name: Set up Python             # setup-python installs Python 3.12.
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt    # pip install -r requirements.txt installs your three packages.
+
+      - name: Run tests
+        run: pytest tests.py -v                 # pytest tests.py -v runs your tests, same command as locally.

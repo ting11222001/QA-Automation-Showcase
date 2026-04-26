@@ -13,7 +13,7 @@ PASSWORD = "secret_sauce"
 @pytest.fixture                                             # @pytest.fixture tells pytest this function is not a test. It is setup code that other tests can use. A fixture is just a function that pytest runs automatically to set something up before a test.
 def driver():                                               # The driver function is the fixture. It creates a browser, gives it to the test, then closes the browser when the test finishes. In hardware testing for example, a fixture is a physical frame that holds a device in place while you test it. In pytest, it holds your test environment in place.
     options = webdriver.ChromeOptions()                     # ChromeOptions() lets you configure the browser before opening it.
-    # options.add_argument("--headless")                      # --headless runs Chrome with no visible window. This is needed for CI environments like GitHub Actions where there is no screen.
+    options.add_argument("--headless")                      # --headless runs Chrome with no visible window. This is needed for CI environments like GitHub Actions where there is no screen.
     options.add_argument("--no-sandbox")                    # --no-sandbox and --disable-dev-shm-usage are needed to make Chrome work inside Linux containers.
     options.add_argument("--disable-dev-shm-usage")
     prefs = {"credentials_enable_service": False, "profile.password_manager_enabled": False} # Disable Chrome's password manager popups which can interfere with tests that involve logging in. This is done by setting some preferences in ChromeOptions.
