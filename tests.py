@@ -59,7 +59,7 @@ def test_add_item_to_cart(driver):
 def test_complete_checkout(driver):
     login(driver)
     driver.find_element(By.CSS_SELECTOR, ".btn_inventory").click()          # .btn_inventory adds the first item to the cart, same as TC03.
-    driver.find_element(By.CLASS_NAME, "shopping_cart_link").click()        # shopping_cart_link clicks the cart icon to go to the cart page.
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CLASS_NAME, "shopping_cart_link"))).click()       # shopping_cart_link clicks the cart icon to go to the cart page.
     # The follow elements are IDs of the elements on the checkout pages. Each one moves you one step forward through the checkout flow.
     WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, "checkout"))).click()     # The error is no such element for the checkout button. This is a timing problem. The cart page is not fully loaded before Selenium tries to click checkout.
     driver.find_element(By.ID, "first-name").send_keys("Test")
@@ -80,5 +80,5 @@ def test_logout(driver):
     # Use WebDriverWait to wait for the "Logout" link to be clickable before trying to click it.
     wait = WebDriverWait(driver, 10)                                                     
     logout_link = wait.until(EC.element_to_be_clickable((By.ID, "logout_sidebar_link")))    # wait.until(EC.element_to_be_clickable(...)) keeps checking until the logout link is actually clickable, then returns it.
-    logout_link.click()
+    driver.execute_script("arguments[0].click();", logout_link)                             # execute_script tells the browser to click the element directly using JavaScript, bypassing any animation or overlay that might be blocking it.
     assert driver.current_url == BASE_URL + "/"
