@@ -80,5 +80,5 @@ def test_logout(driver):
     # Use WebDriverWait to wait for the "Logout" link to be clickable before trying to click it.
     wait = WebDriverWait(driver, 10)                                                     
     logout_link = wait.until(EC.element_to_be_clickable((By.ID, "logout_sidebar_link")))    # wait.until(EC.element_to_be_clickable(...)) keeps checking until the logout link is actually clickable, then returns it.
-    driver.execute_script("arguments[0].click();", logout_link)                             # execute_script tells the browser to click the element directly using JavaScript, bypassing any animation or overlay that might be blocking it.
+    driver.execute_script("arguments[0].click();", logout_link)                             # execute_script tells the browser to click the element directly using JavaScript, bypassing any animation or overlay that might be blocking it. Selenium translates this as: "run this JavaScript, and where you see arguments[0], use logout_link."
     assert driver.current_url == BASE_URL + "/"
