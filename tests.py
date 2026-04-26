@@ -59,6 +59,7 @@ def test_add_item_to_cart(driver):
 def test_complete_checkout(driver):
     login(driver)
     driver.find_element(By.CSS_SELECTOR, ".btn_inventory").click()          # .btn_inventory adds the first item to the cart, same as TC03.
+    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "shopping_cart_badge")))  # Wait for the cart badge to appear. This confirms the item was added before we try to navigate to the cart.
     WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CLASS_NAME, "shopping_cart_link"))).click()       # shopping_cart_link clicks the cart icon to go to the cart page.
     WebDriverWait(driver, 10).until(EC.url_contains("cart"))                # Wait for the URL to contain "cart" before looking for the checkout button. This confirms the cart page is fully loaded.
     WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, "checkout"))).click()     # Click the checkout button. This navigates to checkout-step-one.html.
