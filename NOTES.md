@@ -197,14 +197,40 @@ The first E line is the most important one, read that first
 
 ## Add TestRail
 
-Steps:
-```
-Go to testrail.com and sign up for the free trial
-Create a new project called SauceDemo QA
-Add the 5 test cases from your TEST-PLAN.md manually, one by one, using the same fields: title, preconditions, steps, expected result
-Create a test run and mark each one as Pass
-Take a screenshot of the test run results page
-Save the screenshot as testrail-run.png and put it in the /testrail-evidence/ folder in the repo
+TestRail is a test management tool. It records what you tested and what the result was.
+
+### Setup
+
+1. Go to testrail.com and sign up for the free trial.
+2. Create a new project called **SauceDemo QA**. Choose "Use a single repository for all cases" when asked about the project type.
+3. Click **Dashboard** in the left sidebar, then click into the **SauceDemo QA** project.
+
+### Add Test Cases
+
+1. Look for the **Test Cases** tab at the top of the page.
+2. Click **Add Case**.
+3. Add the 5 test cases from `TEST-PLAN.md` one by one, using these fields: title, preconditions, steps, expected result.
+
+### Create a Test Run
+
+1. Create a test run inside the project.
+2. Mark each test case as **Pass**.
+3. Take a screenshot of the test run results page.
+4. Save the screenshot as `testrail-run.png` and put it in the `/testrail-evidence/` folder in the repo.
+
+### Portfolio Workflow
+
+This is the sequence to follow for each test case:
+
+1. Run your Selenium tests in GitHub Actions and confirm they pass.
+2. Open TestRail and manually set the matching test case (e.g. TC01) to **Passed**.
+3. Take a screenshot of the results page showing "Passed".
+Go to the "Test Cases" tab. Click "Add Case" for each one. Use these fields for each:
+
+Title: e.g. TC01: Valid Login
+Preconditions: copy from your TEST-PLAN.md, e.g. "User is on the SauceDemo login page"
+Steps: copy each step from the table in TEST-PLAN.md
+Expected Result: copy the expected result column
 ```
 
 ## Add Exploratory Testing Session
