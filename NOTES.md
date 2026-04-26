@@ -158,3 +158,51 @@ tests.py::test_logout PASSED                                                    
 
 ============================================================== 5 passed in 34.77s ===============================================================
 ```
+
+### Problem 1: test_complete_checkout
+
+The error is no such element for the checkout button. This is a timing problem. The cart page is not fully loaded before Selenium tries to click checkout.
+
+
+The `>` arrow shows you exactly which line failed:
+```
+>       driver.find_element(By.ID, "checkout").click()
+```
+
+`NoSuchElementException` means Selenium looked for the element and could not find it. That tells you the page was not ready yet:
+```
+E       selenium.common.exceptions.NoSuchElementException: Message: no such element: Unable to locate element: {"method":"css selector","selector":"[id="checkout"]"}
+```
+
+### Problem 2: test_logout
+
+The logout click is not working on the GitHub Actions Linux environment.
+
+Again, the `>`shows which line failed:
+```
+>       assert driver.current_url == BASE_URL + "/"
+```
+
+`AssertionError` means the assert condition was false. Then it shows you exactly what it got versus what it expected. The URL was still `/inventory.html`, which is the Products page and it means the logout click did not navigate away:
+```
+E       AssertionError: assert 'https://www....nventory.html' == 'https://www.saucedemo.com/'
+```
+
+The pattern to remember:
+```
+> points to the exact line that failed
+E lines explain why it failed
+The first E line is the most important one, read that first
+```
+
+## Add TestRail
+
+Steps:
+```
+Go to testrail.com and sign up for the free trial
+Create a new project called SauceDemo QA
+Add the 5 test cases from your TEST-PLAN.md manually, one by one, using the same fields: title, preconditions, steps, expected result
+Create a test run and mark each one as Pass
+Take a screenshot of the test run results page
+Save the screenshot as testrail-run.png and put it in the /testrail-evidence/ folder in the repo
+```

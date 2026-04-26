@@ -60,7 +60,8 @@ def test_complete_checkout(driver):
     login(driver)
     driver.find_element(By.CSS_SELECTOR, ".btn_inventory").click()          # .btn_inventory adds the first item to the cart, same as TC03.
     driver.find_element(By.CLASS_NAME, "shopping_cart_link").click()        # shopping_cart_link clicks the cart icon to go to the cart page.
-    driver.find_element(By.ID, "checkout").click()                          # These are IDs of the elements on the checkout pages. Each one moves you one step forward through the checkout flow.
+    # The follow elements are IDs of the elements on the checkout pages. Each one moves you one step forward through the checkout flow.
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, "checkout"))).click()     # The error is no such element for the checkout button. This is a timing problem. The cart page is not fully loaded before Selenium tries to click checkout.
     driver.find_element(By.ID, "first-name").send_keys("Test")
     driver.find_element(By.ID, "last-name").send_keys("User")
     driver.find_element(By.ID, "postal-code").send_keys("5000")
@@ -72,12 +73,11 @@ def test_complete_checkout(driver):
 # TC05 Logout
 def test_logout(driver):
     login(driver)
-    driver.find_element(By.ID, "react-burger-menu-btn").click()
-    
-    # This is the only test that uses WebDriverWait. The other tests used implicitly_wait which is a general background wait.
-    # When you click the hamburger menu, the sidebar slides in with an animation. If Selenium tries to click "Logout" before the animation finishes, it will fail because the element is not clickable yet.
+    # Wait for the menu button itself to be clickable before clicking it, not just assuming it is ready.
     # WebDriverWait(driver, 10) creates a wait object that will keep trying for up to 10 seconds.
-    # Sometimes need to try increasing the wait time to give the sidebar more time to fully open before trying to click the logout link.
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, "react-burger-menu-btn"))).click()
+    # When you click the hamburger menu, the sidebar slides in with an animation. 
+    # Use WebDriverWait to wait for the "Logout" link to be clickable before trying to click it.
     wait = WebDriverWait(driver, 10)                                                     
     logout_link = wait.until(EC.element_to_be_clickable((By.ID, "logout_sidebar_link")))    # wait.until(EC.element_to_be_clickable(...)) keeps checking until the logout link is actually clickable, then returns it.
     logout_link.click()
