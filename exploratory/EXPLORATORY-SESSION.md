@@ -10,6 +10,7 @@
 | Duration    | 30 minutes                                                             |
 | Target      | SauceDemo checkout and cart flows                                      |
 | Mission     | Explore the cart and checkout flow to find defects outside the scripted test cases |
+| Approach    | Time-boxed session, 30 minutes, no scripted steps |
 
 ---
 
@@ -42,7 +43,7 @@
 
 | ID    | Summary                                                                 | Severity | Filed As     |
 |-------|-------------------------------------------------------------------------|----------|--------------|
-| BUG-01 | Product image mismatch between inventory and cart for `problem_user`  | Medium   | DEFECT-REPORT.md |
+| BUG-01 | Product image mismatch between inventory and cart for `problem_user`  | Medium   | [DEFECT-REPORT.md](DEFECT-REPORT.md) |
 
 ---
 
@@ -56,5 +57,5 @@
 
 ## Follow-up Items
 
-- File BUG-01 as a formal defect report
 - Consider adding a test case for form validation to the automated suite
+- BUG-01 written as a formal defect report with reproduction steps, expected vs actual results, and severity rating (see [DEFECT-REPORT.md](DEFECT-REPORT.md))
