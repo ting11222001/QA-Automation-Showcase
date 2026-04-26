@@ -206,3 +206,12 @@ Create a test run and mark each one as Pass
 Take a screenshot of the test run results page
 Save the screenshot as testrail-run.png and put it in the /testrail-evidence/ folder in the repo
 ```
+
+## Add Exploratory Testing Session
+
+Steps:
+- You run the exploratory session first
+- You find a bug during the session
+- You then write the defect report for that bug
+
+The session is the activity. The defect report is the output of that activity.
